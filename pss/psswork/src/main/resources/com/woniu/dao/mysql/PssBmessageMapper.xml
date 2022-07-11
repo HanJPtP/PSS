@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.mysql.PssBmessageMapper">
+    <resultMap id="PssBmessage_PssBusiness_PssUsers" type="com.woniu.pojo.PssBmessage">
+        <association property="pssBusiness"
+                     column="busid"
+                     javaType="com.woniu.pojo.PssBusiness"
+                     select="com.woniu.dao.mysql.PssBusinessMapper.selectById"/>
+        <association property="pssUsers"
+                     column="userid"
+                     javaType="com.woniu.pojo.PssUsers"
+                     select="com.woniu.dao.mysql.PssUsersMapper.selectById"/>
+    </resultMap>
+
+    <select id="getBmessageList" resultMap="PssBmessage_PssBusiness_PssUsers">
+        select * from `pss_bmessage` pbm left join `pss_business` pbu on pbm.busid = pbu.id left join `pss_users` pus on pbm.userid = pus.id
+        <where>
+            <if test="btitle !=''">
+                and pbm.btitle like concat('%',#{btitle},'%')
+            </if>
+            <if test="busname !=''">
+                and pbu.busname like concat('%',#{busname},'%')
+            </if>
+            <if test="username !=''">
+                and pus.username like concat('%',#{username},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

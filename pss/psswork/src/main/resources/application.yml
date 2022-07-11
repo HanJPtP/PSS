@@ -1,0 +1,21 @@
+logging:
+    level:
+        com:
+            woniu:
+                dao: DEBUG
+        root: INFO
+    pattern:
+        console: ${CONSOLE_LOG_PATTERN:%clr(${LOG_LEVEL_PATTERN:%5p}) %clr([%15.15t]){faint}
+            %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}}
+mybatis-plus:
+    mapper-locations: classpath*:com/woniu/dao/mysql/*.xml
+spring:
+    datasource:
+        username: root
+        password: root123456
+        url: jdbc:mysql://localhost:3306/woniu_pss?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+
+    thymeleaf:
+        cache: false
+server:
+    port: 8081

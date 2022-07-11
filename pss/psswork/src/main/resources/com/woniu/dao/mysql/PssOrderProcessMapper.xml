@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.mysql.PssOrderProcessMapper">
+
+
+    <select id="listPssOrderProcess" resultType="com.woniu.pojo.PssOrderProcess">
+        select * from pss_order_process
+        <where>
+            and ordertypeid=#{ordertypeid}
+            <if test="orderno != ''">
+                and orderno like concat('%',#{orderno},'%')
+            </if>
+            <if test="handlerno != ''">
+                and handlerno like concat('%',#{handlerno},'%')
+            </if>
+            <if test="areano != ''">
+                and areano like concat('%',#{areano},'%')
+            </if>
+            <if test="problemtype != -1">
+                and problemtype=#{problemtype}
+            </if>
+        </where>
+    </select>
+
+</mapper>

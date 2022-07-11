@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.woniu.dao.mysql.PssTestBatchMapper">
+
+    <insert id="updatePssTestBatchTestItemIdToAotherTestItemId">
+        insert into pss_test_batch (testid,testitemid,status)
+        <foreach collection="pssTestBatchs" separator="," open="value"  item="pt">
+            (#{pt.testid},#{pt.testitemid},"y")
+        </foreach>
+    </insert>
+
+</mapper>
+

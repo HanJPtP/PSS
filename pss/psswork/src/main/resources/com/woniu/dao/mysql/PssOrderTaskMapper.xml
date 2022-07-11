@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.mysql.PssOrderTaskMapper">
+
+    <resultMap id="task_type" type="com.woniu.pojo.PssOrderTask">
+        <association property="pssOrderType" column="typeid"
+                     javaType="com.woniu.pojo.PssOrderType"
+                     select="com.woniu.dao.mysql.PssOrderTypeMapper.selectById"/>
+    </resultMap>
+
+    <select id="listOrderTask" resultMap="task_type">
+        select ota.*,oty.id typeid,oty.typename from pss_order_task ota,pss_order_type oty
+        <where>
+            ota.ordertypeid=oty.id
+            <if test="orderno != ''">
+                and orderno like concat('%',#{orderno},'%')
+            </if>
+            <if test="ordertypeid != -1 and ordertypeid != null">
+                and ordertypeid=#{ordertypeid}
+            </if>
+            <if test="userno != ''">
+                and userno like concat('%',#{userno},'%')
+            </if>
+            <if test="orderstatus != -1 and orderstatus != null">
+                and orderstatus=#{orderstatus}
+            </if>
+        </where>
+    </select>
+
+</mapper>

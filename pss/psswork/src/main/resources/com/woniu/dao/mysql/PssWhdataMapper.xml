@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.mysql.PssWhdataMapper">
+<!--    <resultMap id="pss_whdata_warehourse" type="com.woniu.pojo.PssWhdata">-->
+<!--        <id property="id" column="id"></id>-->
+<!--        <result property="whnameno" column="whnameno"></result>-->
+<!--        <result property="dataname" column="dataneme"></result>-->
+<!--        <result property="numbers" column="numbers"></result>-->
+<!--        <result property="standard" column="standard"></result>-->
+<!--        -->
+<!--        <association property="pssWarehouse" column="whhouseid" javaType="com.woniu.pojo.PssWarehouse">-->
+<!--            <result property="whname" column="whname"></result>-->
+<!--        </association>-->
+
+<!--        <association property="pssUnit" column="unitid" javaType="com.woniu.pojo.PssUnit">-->
+<!--            <result property="unitname" column="unitname"></result>-->
+<!--        </association>-->
+<!--    </resultMap>-->
+
+    <select id="ListWhdata" resultType="com.woniu.pojo.PssWhdata">
+        sELECT pda.id,pda.whnameno,pda.dataname,pda.numbers,pwh.whname,
+               pu.unitname,pda.standard from pss_whdata pda LEFT JOIN pss_warehouse pwh on
+                   pda.whhouseid = pwh.id LEFT JOIN pss_unit pu on
+        pda.unitid = pu.id
+        <where>
+            <if test="dataname!=''">
+                and  pda.dataname like concat('%',#{dataname},'%')
+            </if>
+        </where>
+
+    </select>
+
+</mapper>

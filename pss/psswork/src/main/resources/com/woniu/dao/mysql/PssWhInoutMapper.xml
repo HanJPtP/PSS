@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.mysql.PssWhInoutMapper">
+
+    <select id="ListWhinout" resultType="com.woniu.pojo.PssWhInout">
+        SELECT pin.*,ptn.nums,ptn.username,ptn.userno,ptn.tools,pot.typename from
+        pss_wh_inout pin LEFT JOIN pss_tools_nums ptn on pin.orderno = ptn.orderno LEFT JOIN
+        pss_order_type pot on ptn.ordertypeid = pot.id
+        <where>
+            <if test="intime!=null">
+                and intime &gt;#{intime}
+            </if>
+            <if test="outtime!=null">
+                and outtime &lt;#{outtime}
+            </if>
+        </where>
+    </select>
+
+</mapper>

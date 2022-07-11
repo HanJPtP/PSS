@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.mysql.PssVillageMapper">
+    <resultMap id="village_circuit_courts_users" type="com.woniu.pojo.PssVillage">
+        <id property="id" column="id"></id>
+        <result property="village" column="village"></result>
+        <association property="pssCircuit" column="id"  javaType="com.woniu.pojo.PssCircuit">
+            <result property="circuit" column="circuit"></result>
+        </association>
+        <association property="pssCourts" column="id" javaType="com.woniu.pojo.PssCourts">
+            <result property="cname" column="cname"></result>
+            <result property="transformernum" column="transformernum"></result>
+            <result property="transformercap" column="transformercap"></result>
+            <result property="vnumber" column="vnumber"></result>
+            <result property="vlength" column="vlength"></result>
+        </association>
+        <association property="pssUsers" column="id" javaType="com.woniu.pojo.PssUsers">
+            <result property="username" column="username"></result>
+        </association>
+    </resultMap>
+
+
+    <select id="getVillageQuery" resultMap="village_circuit_courts_users">
+        select id,village,circuit,cname,transformernum,transformercap,vnumber,vlength,username from
+        (
+            select pss_village.id,pss_village.village,pss_circuit.circuit,pss_courts.cname,pss_courts.transformernum,
+            pss_courts.transformercap,pss_courts.vnumber,pss_courts.vlength,pss_users.username from `pss_village`
+            left join `pss_circuit` on pss_village.circuitid = pss_circuit.id
+            left join `pss_courts` on pss_circuit.courtsid = pss_courts.id
+            left join `pss_users` on pss_courts.usersid = pss_users.id
+        ) as ps
+       <where>
+            <if test="cname!=''">
+                and cname like concat('%',#{cname},'%')
+            </if>
+            <if test="circuit!=''">
+                and circuit like concat('%',#{circuit},'%')
+            </if>
+            <if test="village!=''">
+                and village like concat('%',#{village},'%')
+            </if>
+            <if test="username!=''">
+                and username like concat('%',#{username},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="saveVillage">
+        insert into pss_village (circuitid,village)
+        <foreach collection="list"
+                 item="item"
+                 open="values"
+                 separator=",">
+            (#{item.circuitid},#{item.village})
+        </foreach>
+    </insert>
+</mapper>

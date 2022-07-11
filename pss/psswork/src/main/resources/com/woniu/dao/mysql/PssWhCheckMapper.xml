@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.mysql.PssWhCheckMapper">
+
+    <!--    <resultMap id="check_toolnum" type="com.woniu.pojo.PssWhCheck">-->
+    <!--        <association property="pssToolsNums" column="orderno" javaType="com.woniu.pojo.PssToolsNums"-->
+    <!--                     select="com.woniu.dao.mysql.PssToolsNumsMapper.selectList"></association>-->
+    <!--    </resultMap>-->
+
+    <select id="listCheck" resultType="com.woniu.pojo.PssWhCheck">
+        SELECT pwc.*,ptn.username,ptn.userno,ptn.tools,ptn.borrowtime,pu.account,ptn.nums,pw.dataname from
+        pss_wh_check pwc LEFT JOIN pss_tools_nums ptn on pwc.orderno = ptn.orderno LEFT JOIN pss_users pu on pwc.adminid = pu.id
+        LEFT JOIN pss_whdata pw on pw.whnameno = ptn.tools
+        <where>
+            <if test="account!=null and account!=''">
+                and  pu.account like concat('%',#{account},'%')
+            </if>
+        </where>
+
+    </select>
+
+</mapper>

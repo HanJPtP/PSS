@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.woniu.dao.mysql.PssTestItemMapper">
+    <!--  查询所有考题的开始  -->
+    <resultMap id="item_type" type="com.woniu.pojo.PssTestItem">
+        <id column="id" property="id"></id>
+        <result column="testname" property="testname"></result>
+        <result column="testtypeid" property="testtypeid"></result>
+        <result column="parentid" property="parentid"></result>
+        <result column="testyn" property="testyn"></result>
+        <result column="status" property="status"></result>
+        <association property="pssTestType" column="testtypeid" javaType="com.woniu.pojo.PssTestType">
+            <id column="pttid" property="id"></id>
+            <result column="typename" property="typename"></result>
+        </association>
+    </resultMap>
+
+    <select id="getPssTestItemByWrapper" resultMap="item_type">
+        select pti.*, ptt.id as pttid, ptt.typename
+        from pss_test_item as pti
+                 left join pss_test_type as ptt on pti.testtypeid = ptt.id ${ew.customsqlsegment}
+    </select>
+    <!--  查询所有考题的结束  -->
+    <!--  批量增加题目开始  -->
+    <insert id="insertListItemIntoMySql">
+        insert into pss_test_item (testname,testtypeid,parentid,testyn,status)
+        <foreach collection="pssTestItemList" item="pt" open="values" separator=",">
+            (#{pt.testname},#{pt.testtypeid},#{pt.parentid},#{pt.testyn},#{pt.status})
+        </foreach>
+    </insert>
+    <!--  批量增加题目结束  -->
+</mapper>
+

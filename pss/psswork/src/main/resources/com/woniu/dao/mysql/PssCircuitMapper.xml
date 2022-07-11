@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.mysql.PssCircuitMapper">
+    <insert id="saveCircuit" keyProperty="id" keyColumn="id">
+        insert into pss_circuit (circuit,courtsid)
+        <foreach collection="list"
+                 item="item"
+                 open="values"
+                 separator=",">
+            (#{item.circuit},#{item.courtsid})
+        </foreach>
+    </insert>
+
+</mapper>

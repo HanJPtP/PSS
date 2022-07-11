@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.mysql.PssPostQuotaMapper">
+
+    <select id="getQuotaListByPostid" resultType="com.woniu.pojo.PssQuota">
+        select pq.* from pss_post_quota ppq left join pss_quota pq on ppq.quotaid = pq.id where ppq.postid = #{postid}
+    </select>
+</mapper>

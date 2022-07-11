@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.mysql.PssOrderElecMapper">
+
+    <select id="listOrderElec" resultType="com.woniu.pojo.PssOrderElec">
+        select * from pss_order_elec
+        <where>
+            <if test="userno != ''">
+                and userno like concat('%',#{userno},'%')
+            </if>
+            <if test="areano != ''">
+                and arearno like concat('%',#{areano},'%')
+            </if>
+            <if test="electricno != ''">
+                and electicno like concat('%',#{electricno},'%')
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

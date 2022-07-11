@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.mysql.PssApprovalMapper">
+    <resultMap id="app_leave_type" type="com.woniu.pojo.PssApproval">
+        <association property="users"
+                     javaType="com.woniu.pojo.PssUsers"
+                     column="userid"
+                     select="com.woniu.dao.mysql.PssUsersMapper.selectById"/>
+        <association property="leavetype"
+                     javaType="com.woniu.pojo.PssLeavetype"
+                     column="leavetypeid"
+                     select="com.woniu.dao.mysql.PssLeavetypeMapper.selectById"/>
+        <association property="approvaltype"
+                     javaType="com.woniu.pojo.PssApprovaltype"
+                     column="approvalid"
+                     select="com.woniu.dao.mysql.PssApprovaltypeMapper.selectById"/>
+    </resultMap>
+    <select id="getApprovalList" resultMap="app_leave_type">
+        select * from pss_approval ap left join pss_users pu on ap.userid = pu.id left join
+        pss_leavetype pl on pl.id = ap.leavetypeid left join pss_approvaltype pa on pa.id=ap.approvalid
+        <where>
+            <if test="approvalid != -1" >
+                approvalid = #{approvalid}
+            </if>
+        </where>
+        order by ap.approvaltime desc
+    </select>
+</mapper>

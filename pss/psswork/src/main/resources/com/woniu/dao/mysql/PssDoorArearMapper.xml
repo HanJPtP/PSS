@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.mysql.PssDoorArearMapper">
+
+    <select id="listDoorArea" resultType="com.woniu.pojo.PssDoorArear">
+        select * from pss_door_arear
+        <where>
+        <if test="doorno != ''">
+            and doorno like concat('%',#{doorno},'%')
+        </if>
+        </where>
+    </select>
+
+</mapper>

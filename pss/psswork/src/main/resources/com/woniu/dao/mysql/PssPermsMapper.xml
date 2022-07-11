@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.mysql.PssPermsMapper">
+
+    <select id="listPermsByUserid" resultType="String">
+        select percode from pss_user_perm up left join pss_perms p on up.permid=p.id where percode is not null and status='y' and userid=#{userid}
+    </select>
+
+    <!--为用户添加权限-->
+    <insert id="addPermByUserId">
+        insert into pss_user_perm(userid,permid)
+        <foreach collection="permids" open="values" separator="," item="permid">
+            (#{userid},#{permid})
+        </foreach>
+    </insert>
+
+</mapper>
